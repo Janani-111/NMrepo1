@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>DOM Events Form</title>
+
+<style>
+    body{
+        margin:0;
+        height:100vh;
+        display:flex;
+        justify-content:center;
+        align-items:center;
+        background: linear-gradient(135deg,#020617,#1e40af);
+        font-family: Arial, sans-serif;
+    }
+
+    .form-box{
+        width:380px;
+        background:#ffffff;
+        padding:25px;
+        border-radius:16px;
+        box-shadow:0 18px 40px rgba(0,0,0,0.6);
+        transition:0.3s;
+    }
+
+    h2{
+        text-align:center;
+        color:#1e40af;
+        margin-bottom:20px;
+    }
+
+    label{
+        font-size:14px;
+        font-weight:bold;
+    }
+
+    input, select, button{
+        width:100%;
+        padding:9px;
+        margin:6px 0 14px;
+        border-radius:8px;
+        border:1px solid #cbd5e1;
+        font-size:14px;
+    }
+
+    button{
+        background:#1e40af;
+        color:white;
+        cursor:pointer;
+        border:none;
+    }
+
+    button:hover{
+        background:#020617;
+    }
+
+    .msg{
+        text-align:center;
+        font-size:14px;
+        font-weight:bold;
+    }
+
+    .error{
+        color:#dc2626;
+    }
+
+    .success{
+        color:#15803d;
+    }
+</style>
+</head>
+
+<body>
+
+<div class="form-box" id="box">
+<h2>User Registration</h2>
+
+<form id="userForm">
+
+<label>Name</label>
+<input type="text" id="name" placeholder="Enter Name">
+
+<label>Email</label>
+<input type="text" id="email" placeholder="Enter Email">
+
+<label>Gender</label>
+<select id="gender">
+    <option value="">Select</option>
+    <option>Male</option>
+    <option>Female</option>
+</select>
+
+<label>Course</label>
+<select id="course">
+    <option value="">Select Course</option>
+    <option>HTML</option>
+    <option>CSS</option>
+    <option>JavaScript</option>
+</select>
+
+<button type="submit" id="submitBtn">Register</button>
+
+</form>
+
+<p class="msg" id="msg"></p>
+</div>
+
+<script>
+    // mouseover
+    box.onmouseover = () => {
+        box.style.boxShadow = "0 0 35px #60a5fa";
+    };
+
+    // mouseout
+    box.onmouseout = () => {
+        box.style.boxShadow = "0 18px 40px rgba(0,0,0,0.6)";
+    };
+
+    // focus (light visible color)
+    name.onfocus = email.onfocus = () => {
+        event.target.style.background = "#fef9c3";
+    };
+
+    // blur
+    name.onblur = email.onblur = () => {
+        event.target.style.background = "white";
+    };
+
+    // keydown
+    name.onkeydown = () => {
+        msg.innerText = "Typing...";
+        msg.className = "msg";
+    };
+
+    // keyup → first letter capital
+    name.onkeyup = () => {
+        let value = name.value;
+        if(value.length > 0){
+            name.value = value.charAt(0).toUpperCase() + value.slice(1);
+        }
+    };
+
+    // change
+    course.onchange = () => {
+        msg.innerText = "Course Selected: " + course.value;
+        msg.className = "msg success";
+    };
+
+    // click
+    submitBtn.onclick = () => {
+        box.style.border = "3px solid #22c55e";
+    };
+
+    // dblclick
+    submitBtn.ondblclick = () => {
+        box.style.background = "#ecfeff";
+    };
+
+    // submit with email validation
+    userForm.onsubmit = (e) => {
+        e.preventDefault();
+
+        let emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+        if(!emailPattern.test(email.value)){
+            msg.innerText = "Invalid Email Format ❌";
+            msg.className = "msg error";
+            email.focus();
+            return;
+        }
+
+        msg.innerText = "Form Submitted Successfully ✔";
+        msg.className = "msg success";
+    };
+</script>
+
+</body>
+</html>
